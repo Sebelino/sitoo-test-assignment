@@ -10,8 +10,7 @@ CREATE TABLE IF NOT EXISTS `sitoo_test_assignment`.`product`
     `created`     DATETIME       NOT NULL,
     PRIMARY KEY (`product_id`),
     UNIQUE INDEX (`sku` ASC),
-    INDEX (`created`),
-    INDEX (`last_updated`)
+    INDEX (`created`)
 );
 CREATE TABLE IF NOT EXISTS `sitoo_test_assignment`.`product_barcode`
 (
