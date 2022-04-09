@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"math/rand"
 	"time"
 )
 
@@ -18,6 +19,13 @@ func (Product) TableName() string {
 	return "product"
 }
 
+func makeSku() string {
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1)
+	n := r1.Intn(10000)
+	return fmt.Sprintf("SCK-%d", n)
+}
+
 func main() {
 	fmt.Println("Starting server...")
 
@@ -26,11 +34,11 @@ func main() {
 	if err != nil {
 		panic("Failed to connect to database")
 	}
+	sku := makeSku()
 	db.Create(&Product{
-		ProductId: 7,
-		Title:     "Awesome socks",
-		Sku:       "SCK-4511",
-		Created:   time.Now(),
+		Title:   "Awesome socks",
+		Sku:     sku,
+		Created: time.Now(),
 	})
 	fmt.Println(db)
 }
