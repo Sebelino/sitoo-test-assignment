@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"math/rand"
+	"net/http"
 	"time"
 )
 
@@ -40,7 +42,18 @@ func connectAndInsert() {
 	})
 }
 
+func getProducts(c *gin.Context) {
+	sampleProducts := []Product{
+		{ProductId: 777, Title: "Sample title"},
+	}
+	c.IndentedJSON(http.StatusOK, sampleProducts)
+}
+
 func main() {
 	fmt.Println("Starting server...")
 	connectAndInsert()
+
+	router := gin.Default()
+	router.GET("/api/products", getProducts)
+	router.Run("localhost:8080")
 }
