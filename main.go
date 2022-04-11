@@ -28,14 +28,18 @@ func makeSku() string {
 	return fmt.Sprintf("SCK-%d", n)
 }
 
-func connectAndInsert() {
+func makeConnection() *gorm.DB {
 	dsn := "root:@tcp(127.0.0.1:3306)/sitoo_test_assignment?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	connection, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("Failed to connect to database")
 	}
+	return connection
+}
+
+func insert(connection *gorm.DB) {
 	sku := makeSku()
-	db.Create(&Product{
+	connection.Create(&Product{
 		Title:   "Awesome socks",
 		Sku:     sku,
 		Created: time.Now(),
@@ -51,7 +55,8 @@ func getProducts(c *gin.Context) {
 
 func main() {
 	fmt.Println("Starting server...")
-	connectAndInsert()
+	connection := makeConnection()
+	insert(connection)
 
 	router := gin.Default()
 	router.GET("/api/products", getProducts)
