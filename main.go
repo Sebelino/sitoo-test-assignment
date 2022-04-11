@@ -11,10 +11,10 @@ import (
 )
 
 type Product struct {
-	ProductId uint `gorm:"primarykey"`
-	Title     string
-	Sku       string
-	Created   time.Time
+	ProductId uint      `json:"productId" gorm:"primarykey"`
+	Title     string    `json:"title"`
+	Sku       string    `json:"sku"`
+	Created   time.Time `json:"created"`
 }
 
 func (Product) TableName() string {
