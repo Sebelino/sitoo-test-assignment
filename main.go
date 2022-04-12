@@ -62,8 +62,15 @@ func getProductsHandler(db *gorm.DB) func(*gin.Context) {
 		fmt.Printf("Query parameter: num=%s\n", num)
 		fmt.Printf("Query parameter: sku=%s\n", sku)
 		fmt.Printf("Query parameter: barcode=%s\n", barcode)
+		var filter = make(map[string]string)
+		if sku != "" {
+			filter["sku"] = sku
+		}
+		if barcode != "" {
+			filter["barcode"] = barcode
+		}
 		var products []Product
-		db.Find(&products)
+		db.Where(filter).Find(&products)
 		response := ProductsEnvelope{
 			TotalCount: len(products),
 			Items:      products,
