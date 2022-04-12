@@ -54,6 +54,14 @@ func insert(connection *gorm.DB) {
 
 func getProductsHandler(db *gorm.DB) func(*gin.Context) {
 	return func(c *gin.Context) {
+		start := c.DefaultQuery("start", "0")
+		num := c.DefaultQuery("num", "10")
+		sku := c.DefaultQuery("sku", "")
+		barcode := c.DefaultQuery("barcode", "")
+		fmt.Printf("Query parameter: start=%s\n", start)
+		fmt.Printf("Query parameter: num=%s\n", num)
+		fmt.Printf("Query parameter: sku=%s\n", sku)
+		fmt.Printf("Query parameter: barcode=%s\n", barcode)
 		var products []Product
 		db.Find(&products)
 		response := ProductsEnvelope{
