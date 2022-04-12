@@ -87,7 +87,7 @@ func setupRouter(connection *gorm.DB) *gin.Engine {
 
 func main() {
 	fmt.Println("Starting server...")
-	connection := database.MakeConnection()
+	connection := database.Setup()
 	insert(connection)
 
 	router := setupRouter(connection)
