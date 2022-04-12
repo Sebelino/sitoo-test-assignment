@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/Sebelino/sitoo-test-assignment/database"
+	"github.com/Sebelino/sitoo-test-assignment/model"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"math/rand"
@@ -10,23 +11,6 @@ import (
 	"strconv"
 	"time"
 )
-
-type Product struct {
-	ProductId   uint      `json:"productId" gorm:"primarykey"`
-	Title       string    `json:"title"`
-	Sku         string    `json:"sku"`
-	Created     time.Time `json:"created"`
-	Description *string   `json:"description"`
-}
-
-type ProductsEnvelope struct {
-	TotalCount int       `json:"totalCount"`
-	Items      []Product `json:"items"`
-}
-
-func (Product) TableName() string {
-	return "product"
-}
 
 func makeSku() string {
 	s1 := rand.NewSource(time.Now().UnixNano())
@@ -37,7 +21,7 @@ func makeSku() string {
 
 func insert(connection *gorm.DB) {
 	sku := makeSku()
-	connection.Create(&Product{
+	connection.Create(&model.Product{
 		Title:   "Awesome socks",
 		Sku:     sku,
 		Created: time.Now(),
@@ -67,11 +51,11 @@ func getProductsHandler(connection *gorm.DB) func(*gin.Context) {
 		if barcode != "" {
 			filter["barcode"] = barcode
 		}
-		var products []Product
+		var products []model.Product
 		if num > 0 {
 			connection.Where(filter).Offset(start).Limit(num).Find(&products)
 		}
-		response := ProductsEnvelope{
+		response := model.ProductsEnvelope{
 			TotalCount: len(products),
 			Items:      products,
 		}
