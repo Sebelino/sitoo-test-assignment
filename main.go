@@ -44,17 +44,13 @@ func getProductsHandler(connection *gorm.DB) func(*gin.Context) {
 			panic(fmt.Sprintf("Could not parse query parameter \"num\" into integer: %s", numString))
 		}
 
-		var filter = make(map[string]string)
-		if sku != "" {
-			filter["sku"] = sku
-		}
-		if barcode != "" {
-			filter["barcode"] = barcode
-		}
-		var products []model.Product
-		if num > 0 {
-			connection.Where(filter).Offset(start).Limit(num).Find(&products)
-		}
+		products := database.GetProducts(database.ProductFilter{
+			Start:   start,
+			Num:     num,
+			Sku:     sku,
+			Barcode: barcode,
+		}, connection)
+
 		response := model.ProductsEnvelope{
 			TotalCount: len(products),
 			Items:      products,

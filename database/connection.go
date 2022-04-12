@@ -1,6 +1,7 @@
 package database
 
 import (
+	"github.com/Sebelino/sitoo-test-assignment/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -12,4 +13,26 @@ func Setup() *gorm.DB {
 		panic("Failed to connect to database")
 	}
 	return connection
+}
+
+type ProductFilter struct {
+	Start   int
+	Num     int
+	Sku     string
+	Barcode string
+}
+
+func GetProducts(filter ProductFilter, connection *gorm.DB) []model.Product {
+	var queryFilter = make(map[string]string)
+	if filter.Sku != "" {
+		queryFilter["sku"] = filter.Sku
+	}
+	if filter.Barcode != "" {
+		queryFilter["barcode"] = filter.Barcode
+	}
+	var products []model.Product
+	if filter.Num > 0 {
+		connection.Where(queryFilter).Offset(filter.Start).Limit(filter.Num).Find(&products)
+	}
+	return products
 }
