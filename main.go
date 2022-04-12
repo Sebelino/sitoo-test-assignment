@@ -81,7 +81,9 @@ func getProductsHandler(db *gorm.DB) func(*gin.Context) {
 			filter["barcode"] = barcode
 		}
 		var products []Product
-		db.Where(filter).Find(&products)
+		if num > 0 {
+			db.Where(filter).Offset(start).Limit(num).Find(&products)
+		}
 		response := ProductsEnvelope{
 			TotalCount: len(products),
 			Items:      products,
