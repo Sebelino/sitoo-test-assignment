@@ -88,13 +88,18 @@ func getProductsHandler(connection *gorm.DB) func(*gin.Context) {
 	}
 }
 
+func setupRouter(connection *gorm.DB) *gin.Engine {
+	router := gin.Default()
+	router.GET("/api/products", getProductsHandler(connection))
+	return router
+}
+
 func main() {
 	fmt.Println("Starting server...")
 	connection := makeConnection()
 	insert(connection)
 
-	router := gin.Default()
-	router.GET("/api/products", getProductsHandler(connection))
+	router := setupRouter(connection)
 	err := router.Run(":8080")
 	if err != nil {
 		panic(err)
