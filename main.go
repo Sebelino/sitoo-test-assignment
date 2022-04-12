@@ -18,6 +18,11 @@ type Product struct {
 	Description *string   `json:"description"`
 }
 
+type ProductsEnvelope struct {
+	TotalCount int       `json:"totalCount"`
+	Items      []Product `json:"items"`
+}
+
 func (Product) TableName() string {
 	return "product"
 }
@@ -51,7 +56,11 @@ func getProductsHandler(db *gorm.DB) func(*gin.Context) {
 	return func(c *gin.Context) {
 		var products []Product
 		db.Find(&products)
-		c.IndentedJSON(http.StatusOK, products)
+		response := ProductsEnvelope{
+			TotalCount: len(products),
+			Items:      products,
+		}
+		c.IndentedJSON(http.StatusOK, response)
 	}
 }
 
