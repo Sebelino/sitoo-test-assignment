@@ -47,11 +47,12 @@ func insert(connection *gorm.DB) {
 	})
 }
 
-func getProducts(c *gin.Context) {
-	sampleProducts := []Product{
-		{ProductId: 777, Title: "Sample title"},
+func getProductsHandler(db *gorm.DB) func(*gin.Context) {
+	return func(c *gin.Context) {
+		var products []Product
+		db.Find(&products)
+		c.IndentedJSON(http.StatusOK, products)
 	}
-	c.IndentedJSON(http.StatusOK, sampleProducts)
 }
 
 func main() {
@@ -60,6 +61,6 @@ func main() {
 	insert(connection)
 
 	router := gin.Default()
-	router.GET("/api/products", getProducts)
+	router.GET("/api/products", getProductsHandler(connection))
 	router.Run("localhost:8080")
 }
