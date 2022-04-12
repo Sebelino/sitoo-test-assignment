@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 	"math/rand"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -54,12 +55,22 @@ func insert(connection *gorm.DB) {
 
 func getProductsHandler(db *gorm.DB) func(*gin.Context) {
 	return func(c *gin.Context) {
-		start := c.DefaultQuery("start", "0")
-		num := c.DefaultQuery("num", "10")
+		startString := c.DefaultQuery("start", "0")
+		numString := c.DefaultQuery("num", "10")
 		sku := c.DefaultQuery("sku", "")
 		barcode := c.DefaultQuery("barcode", "")
-		fmt.Printf("Query parameter: start=%s\n", start)
-		fmt.Printf("Query parameter: num=%s\n", num)
+
+		start, errStart := strconv.Atoi(startString)
+		if errStart != nil {
+			panic(fmt.Sprintf("Could not parse query parameter \"start\" into integer: %s", startString))
+		}
+		num, errNum := strconv.Atoi(numString)
+		if errNum != nil {
+			panic(fmt.Sprintf("Could not parse query parameter \"num\" into integer: %s", numString))
+		}
+
+		fmt.Printf("Query parameter: start=%d\n", start)
+		fmt.Printf("Query parameter: num=%d\n", num)
 		fmt.Printf("Query parameter: sku=%s\n", sku)
 		fmt.Printf("Query parameter: barcode=%s\n", barcode)
 		var filter = make(map[string]string)
