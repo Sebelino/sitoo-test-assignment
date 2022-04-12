@@ -62,5 +62,5 @@ func main() {
 
 	router := gin.Default()
 	router.GET("/api/products", getProductsHandler(connection))
-	router.Run("localhost:8080")
+	router.Run(":8080")
 }
