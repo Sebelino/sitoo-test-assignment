@@ -3,9 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/Sebelino/sitoo-test-assignment/database"
-	"github.com/Sebelino/sitoo-test-assignment/handlers"
 	"github.com/Sebelino/sitoo-test-assignment/model"
-	"github.com/gin-gonic/gin"
+	"github.com/Sebelino/sitoo-test-assignment/routers"
 	"gorm.io/gorm"
 	"math/rand"
 	"time"
@@ -27,21 +26,12 @@ func insert(connection *gorm.DB) {
 	})
 }
 
-func setupRouter(connection *gorm.DB) *gin.Engine {
-	api := handlers.ApiEnv{
-		Connection: connection,
-	}
-	router := gin.Default()
-	router.GET("/api/products", api.GetProducts)
-	return router
-}
-
 func main() {
 	fmt.Println("Starting server...")
 	connection := database.Setup()
 	insert(connection)
 
-	router := setupRouter(connection)
+	router := routers.Setup(connection)
 	err := router.Run(":8080")
 	if err != nil {
 		panic(err)
