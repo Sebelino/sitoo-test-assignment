@@ -69,10 +69,6 @@ func getProductsHandler(db *gorm.DB) func(*gin.Context) {
 			panic(fmt.Sprintf("Could not parse query parameter \"num\" into integer: %s", numString))
 		}
 
-		fmt.Printf("Query parameter: start=%d\n", start)
-		fmt.Printf("Query parameter: num=%d\n", num)
-		fmt.Printf("Query parameter: sku=%s\n", sku)
-		fmt.Printf("Query parameter: barcode=%s\n", barcode)
 		var filter = make(map[string]string)
 		if sku != "" {
 			filter["sku"] = sku
