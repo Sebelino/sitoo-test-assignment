@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/Sebelino/sitoo-test-assignment/database"
 	"github.com/gin-gonic/gin"
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"math/rand"
 	"net/http"
@@ -33,15 +33,6 @@ func makeSku() string {
 	r1 := rand.New(s1)
 	n := r1.Intn(10000)
 	return fmt.Sprintf("SCK-%d", n)
-}
-
-func makeConnection() *gorm.DB {
-	dsn := "root:@tcp(127.0.0.1:3306)/sitoo_test_assignment?charset=utf8mb4&parseTime=True&loc=Local"
-	connection, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-		panic("Failed to connect to database")
-	}
-	return connection
 }
 
 func insert(connection *gorm.DB) {
@@ -96,7 +87,7 @@ func setupRouter(connection *gorm.DB) *gin.Engine {
 
 func main() {
 	fmt.Println("Starting server...")
-	connection := makeConnection()
+	connection := database.MakeConnection()
 	insert(connection)
 
 	router := setupRouter(connection)
