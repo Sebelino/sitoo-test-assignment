@@ -53,7 +53,7 @@ func insert(connection *gorm.DB) {
 	})
 }
 
-func getProductsHandler(db *gorm.DB) func(*gin.Context) {
+func getProductsHandler(connection *gorm.DB) func(*gin.Context) {
 	return func(c *gin.Context) {
 		startString := c.DefaultQuery("start", "0")
 		numString := c.DefaultQuery("num", "10")
@@ -78,7 +78,7 @@ func getProductsHandler(db *gorm.DB) func(*gin.Context) {
 		}
 		var products []Product
 		if num > 0 {
-			db.Where(filter).Offset(start).Limit(num).Find(&products)
+			connection.Where(filter).Offset(start).Limit(num).Find(&products)
 		}
 		response := ProductsEnvelope{
 			TotalCount: len(products),
