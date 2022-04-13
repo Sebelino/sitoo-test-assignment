@@ -50,8 +50,6 @@ type HttpError struct {
 	ErrorText string `json:"errorText"`
 }
 
-const mysqlDuplicateEntry = 1062
-
 func (e *ApiEnv) PostProduct(context *gin.Context) {
 	fmt.Println("POSTing product")
 	product := model.Product{}
