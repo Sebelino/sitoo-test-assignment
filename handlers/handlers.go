@@ -50,7 +50,7 @@ func (e *ApiEnv) PostProduct(context *gin.Context) {
 	err := context.BindJSON(&product)
 	if err != nil {
 		fmt.Println(err)
-		context.JSON(http.StatusInternalServerError, err.Error())
+		context.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 	product.Created = time.Now()
