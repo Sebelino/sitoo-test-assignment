@@ -5,6 +5,7 @@ import (
 	"github.com/Sebelino/sitoo-test-assignment/database"
 	"github.com/Sebelino/sitoo-test-assignment/model"
 	"github.com/gin-gonic/gin"
+	"github.com/go-sql-driver/mysql"
 	"gorm.io/gorm"
 	"net/http"
 	"strconv"
@@ -49,6 +50,8 @@ type HttpError struct {
 	ErrorText string `json:"errorText"`
 }
 
+const MYSQL_DUPLICATE_ENTRY = 1062
+
 func (e *ApiEnv) PostProduct(context *gin.Context) {
 	fmt.Println("POSTing product")
 	product := model.Product{}
@@ -63,6 +66,15 @@ func (e *ApiEnv) PostProduct(context *gin.Context) {
 	}
 	product.Created = time.Now()
 	if err := database.CreateProduct(e.Db, product); err != nil {
+		me, _ := err.(*mysql.MySQLError)
+		if me.Number == MYSQL_DUPLICATE_ENTRY {
+			httpError := HttpError{
+				ErrorCode: int(me.Number),
+				ErrorText: "The supplied product already exists",
+			}
+			context.IndentedJSON(http.StatusBadRequest, httpError)
+			return
+		}
 		httpError := HttpError{
 			ErrorCode: 2,
 			ErrorText: "Could not insert product in database",
