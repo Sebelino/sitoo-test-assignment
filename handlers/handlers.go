@@ -62,8 +62,7 @@ func (e *ApiEnv) PostProduct(context *gin.Context) {
 		return
 	}
 	product.Created = time.Now()
-	err := database.CreateProduct(e.Db, product)
-	if err != nil {
+	if err := database.CreateProduct(e.Db, product); err != nil {
 		httpError := HttpError{
 			ErrorCode: 2,
 			ErrorText: "Could not insert product in database",
