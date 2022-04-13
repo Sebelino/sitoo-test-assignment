@@ -69,7 +69,7 @@ func (e *ApiEnv) PostProduct(context *gin.Context) {
 		me, _ := err.(*mysql.MySQLError)
 		if me.Number == MYSQL_DUPLICATE_ENTRY {
 			httpError := HttpError{
-				ErrorCode: 30000 + int(me.Number),
+				ErrorCode: dbToCustomErrorCode(me.Number),
 				ErrorText: "The supplied product already exists",
 			}
 			context.IndentedJSON(http.StatusBadRequest, httpError)
