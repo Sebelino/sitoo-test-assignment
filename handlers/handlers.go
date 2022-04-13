@@ -42,3 +42,15 @@ func (e *ApiEnv) GetProducts(c *gin.Context) {
 	}
 	c.IndentedJSON(http.StatusOK, response)
 }
+
+func (e *ApiEnv) PostProduct(context *gin.Context) {
+	fmt.Println("POSTing product")
+	product := model.Product{}
+	err := context.BindJSON(&product)
+	if err != nil {
+		fmt.Println(err)
+		context.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	database.CreateProduct(e.Db, product)
+}

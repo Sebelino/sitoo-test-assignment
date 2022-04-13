@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"github.com/Sebelino/sitoo-test-assignment/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -35,4 +36,9 @@ func GetProducts(filter ProductFilter, db *gorm.DB) []model.Product {
 		db.Where(queryFilter).Offset(filter.Start).Limit(filter.Num).Find(&products)
 	}
 	return products
+}
+
+func CreateProduct(db *gorm.DB, product model.Product) {
+	fmt.Printf("Insert %v\n", product)
+	db.Create(&product)
 }

@@ -12,5 +12,6 @@ func Setup(db *gorm.DB) *gin.Engine {
 	}
 	router := gin.Default()
 	router.GET("/api/products", api.GetProducts)
+	router.POST("/api/products", api.PostProduct)
 	return router
 }
