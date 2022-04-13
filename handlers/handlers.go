@@ -52,8 +52,7 @@ type HttpError struct {
 func (e *ApiEnv) PostProduct(context *gin.Context) {
 	fmt.Println("POSTing product")
 	product := model.Product{}
-	err := context.BindJSON(&product)
-	if err != nil {
+	if err := context.BindJSON(&product); err != nil {
 		fmt.Println(err)
 		httpError := HttpError{
 			ErrorCode: 1,
