@@ -11,7 +11,7 @@ import (
 )
 
 type ApiEnv struct {
-	Connection *gorm.DB
+	Db *gorm.DB
 }
 
 func (e *ApiEnv) GetProducts(c *gin.Context) {
@@ -34,7 +34,7 @@ func (e *ApiEnv) GetProducts(c *gin.Context) {
 		Num:     num,
 		Sku:     sku,
 		Barcode: barcode,
-	}, e.Connection)
+	}, e.Db)
 
 	response := model.ProductsEnvelope{
 		TotalCount: len(products),

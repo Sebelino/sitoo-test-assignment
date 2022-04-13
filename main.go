@@ -17,9 +17,9 @@ func makeSku() string {
 	return fmt.Sprintf("SCK-%d", n)
 }
 
-func insert(connection *gorm.DB) {
+func insert(db *gorm.DB) {
 	sku := makeSku()
-	connection.Create(&model.Product{
+	db.Create(&model.Product{
 		Title:   "Awesome socks",
 		Sku:     sku,
 		Created: time.Now(),
@@ -28,10 +28,10 @@ func insert(connection *gorm.DB) {
 
 func main() {
 	fmt.Println("Starting server...")
-	connection := database.Setup()
-	insert(connection)
+	db := database.Setup()
+	insert(db)
 
-	router := routers.Setup(connection)
+	router := routers.Setup(db)
 	err := router.Run(":8080")
 	if err != nil {
 		panic(err)

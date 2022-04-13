@@ -6,9 +6,9 @@ import (
 	"gorm.io/gorm"
 )
 
-func Setup(connection *gorm.DB) *gin.Engine {
+func Setup(db *gorm.DB) *gin.Engine {
 	api := handlers.ApiEnv{
-		Connection: connection,
+		Db: db,
 	}
 	router := gin.Default()
 	router.GET("/api/products", api.GetProducts)

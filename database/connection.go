@@ -8,11 +8,11 @@ import (
 
 func Setup() *gorm.DB {
 	dsn := "root:@tcp(127.0.0.1:3306)/sitoo_test_assignment?charset=utf8mb4&parseTime=True&loc=Local"
-	connection, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("Failed to connect to database")
 	}
-	return connection
+	return db
 }
 
 type ProductFilter struct {
@@ -22,7 +22,7 @@ type ProductFilter struct {
 	Barcode string
 }
 
-func GetProducts(filter ProductFilter, connection *gorm.DB) []model.Product {
+func GetProducts(filter ProductFilter, db *gorm.DB) []model.Product {
 	var queryFilter = make(map[string]string)
 	if filter.Sku != "" {
 		queryFilter["sku"] = filter.Sku
@@ -32,7 +32,7 @@ func GetProducts(filter ProductFilter, connection *gorm.DB) []model.Product {
 	}
 	var products []model.Product
 	if filter.Num > 0 {
-		connection.Where(queryFilter).Offset(filter.Start).Limit(filter.Num).Find(&products)
+		db.Where(queryFilter).Offset(filter.Start).Limit(filter.Num).Find(&products)
 	}
 	return products
 }
