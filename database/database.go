@@ -38,7 +38,11 @@ func GetProducts(filter ProductFilter, db *gorm.DB) []model.Product {
 	return products
 }
 
-func CreateProduct(db *gorm.DB, product model.Product) {
+func CreateProduct(db *gorm.DB, product model.Product) error {
 	fmt.Printf("Insert %v\n", product)
-	db.Create(&product)
+	err := db.Create(&product).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }

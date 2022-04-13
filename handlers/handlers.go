@@ -54,5 +54,8 @@ func (e *ApiEnv) PostProduct(context *gin.Context) {
 		return
 	}
 	product.Created = time.Now()
-	database.CreateProduct(e.Db, product)
+	errDb := database.CreateProduct(e.Db, product)
+	if errDb != nil {
+		context.JSON(http.StatusInternalServerError, errDb.Error())
+	}
 }
