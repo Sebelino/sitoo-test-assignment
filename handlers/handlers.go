@@ -67,4 +67,5 @@ func (e *ApiEnv) PostProduct(context *gin.Context) {
 	if errDb != nil {
 		context.JSON(http.StatusInternalServerError, errDb.Error())
 	}
+	context.Status(http.StatusCreated)
 }
