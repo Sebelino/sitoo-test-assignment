@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 type ApiEnv struct {
@@ -52,5 +53,6 @@ func (e *ApiEnv) PostProduct(context *gin.Context) {
 		context.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
+	product.Created = time.Now()
 	database.CreateProduct(e.Db, product)
 }
