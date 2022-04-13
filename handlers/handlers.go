@@ -50,7 +50,7 @@ type HttpError struct {
 	ErrorText string `json:"errorText"`
 }
 
-const MYSQL_DUPLICATE_ENTRY = 1062
+const mysqlDuplicateEntry = 1062
 
 func (e *ApiEnv) PostProduct(context *gin.Context) {
 	fmt.Println("POSTing product")
@@ -67,7 +67,7 @@ func (e *ApiEnv) PostProduct(context *gin.Context) {
 	product.Created = time.Now()
 	if err := database.CreateProduct(e.Db, product); err != nil {
 		me, _ := err.(*mysql.MySQLError)
-		if me.Number == MYSQL_DUPLICATE_ENTRY {
+		if me.Number == mysqlDuplicateEntry {
 			httpError := HttpError{
 				ErrorCode: dbToCustomErrorCode(me.Number),
 				ErrorText: "The supplied product already exists",
