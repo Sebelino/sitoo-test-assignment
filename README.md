@@ -10,12 +10,6 @@ Start MySQL container:
 docker-compose up
 ```
 
-Run application (tables will be created on boot):
-
-```
-go run main.go
-```
-
 Add a product:
 
 ```
