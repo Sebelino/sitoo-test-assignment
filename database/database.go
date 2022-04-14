@@ -1,7 +1,6 @@
 package database
 
 import (
-	"fmt"
 	"github.com/Sebelino/sitoo-test-assignment/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -43,7 +42,6 @@ func GetProducts(filter ProductFilter, db *gorm.DB) []model.Product {
 }
 
 func CreateProduct(db *gorm.DB, product *model.Product) error {
-	fmt.Printf("Insert %v\n", product)
 	if err := db.Create(product).Error; err != nil {
 		return err
 	}
