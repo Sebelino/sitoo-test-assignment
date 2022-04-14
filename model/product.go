@@ -1,7 +1,6 @@
 package model
 
 import (
-	"github.com/shopspring/decimal"
 	"gorm.io/gorm"
 	"strconv"
 )
@@ -12,7 +11,7 @@ type Product struct {
 	Title       string           `json:"title" binding:"required" gorm:"size:32"`
 	Sku         string           `json:"sku" binding:"required" gorm:"size:32;uniqueIndex;not null"`
 	Description *string          `json:"description" gorm:"size:1024"`
-	Price       decimal.Decimal  `json:"price" gorm:"type:decimal(12,2)"`
+	Price       string           `json:"price" gorm:"type:decimal(12,2)"`
 	Barcodes    []ProductBarcode `json:"barcodes" gorm:"foreignKey:ProductId"`
 }
 
