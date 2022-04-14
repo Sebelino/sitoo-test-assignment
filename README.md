@@ -1,25 +1,30 @@
 # sitoo-test-assignment
+
 Sitoo Test Assignment.
 
 ## Usage
 
 Start MySQL container:
+
 ```bash
 docker-compose up
 ```
 
 Run application (tables will be created on boot):
+
 ```
 go run main.go
 ```
 
 Add a product:
+
 ```
 curl "localhost:8080/api/products" \
     -d '{"title": "Awesome socks", "sku": "SCK-4511"}'
 ```
 
 Get products based on filter:
+
 ```
 curl "localhost:8080/api/products?sku=SCK-4511&start=0&num=15"
 {
@@ -36,11 +41,13 @@ curl "localhost:8080/api/products?sku=SCK-4511&start=0&num=15"
 ```
 
 Optionally, explore the database:
+
 ```bash
 mysql -h 127.0.0.1 -P 3306 -u root sitoo_test_assignment
 ```
 
 ## Third-party dependencies
+
 * `github.com/gin-gonic/gin` -- For exposing the HTTP REST API
 * `gorm.io/gorm` -- ORM library for making interacting with the database easier
 * `gorm.io/driver/mysql` -- Supporting `gorm` library for MySQL
