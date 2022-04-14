@@ -5,6 +5,7 @@ import (
 	"github.com/Sebelino/sitoo-test-assignment/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"log"
 )
 
 func Setup() *gorm.DB {
@@ -12,6 +13,9 @@ func Setup() *gorm.DB {
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("Failed to connect to database")
+	}
+	if err := db.AutoMigrate(&model.Product{}); err != nil {
+		log.Fatalf("Failed to perform database migration of products: %v", err)
 	}
 	return db
 }
@@ -38,9 +42,9 @@ func GetProducts(filter ProductFilter, db *gorm.DB) []model.Product {
 	return products
 }
 
-func CreateProduct(db *gorm.DB, product model.Product) error {
+func CreateProduct(db *gorm.DB, product *model.Product) error {
 	fmt.Printf("Insert %v\n", product)
-	err := db.Create(&product).Error
+	err := db.Create(product).Error
 	if err != nil {
 		return err
 	}

@@ -9,7 +9,6 @@ import (
 	"gorm.io/gorm"
 	"net/http"
 	"strconv"
-	"time"
 )
 
 type ApiEnv struct {
@@ -61,8 +60,7 @@ func (e *ApiEnv) PostProduct(context *gin.Context) {
 		context.IndentedJSON(http.StatusBadRequest, httpError)
 		return
 	}
-	product.Created = time.Now()
-	if err := database.CreateProduct(e.Db, product); err != nil {
+	if err := database.CreateProduct(e.Db, &product); err != nil {
 		me, _ := err.(*mysql.MySQLError)
 		if me.Number == mysqlDuplicateEntry {
 			httpError := HttpError{

@@ -1,13 +1,14 @@
 package model
 
-import "time"
+import (
+	"gorm.io/gorm"
+)
 
 type Product struct {
-	ProductId   uint      `json:"productId" gorm:"primarykey"`
-	Title       string    `json:"title" binding:"required"`
-	Sku         string    `json:"sku" binding:"required"`
-	Created     time.Time `json:"created"`
-	Description *string   `json:"description"`
+	gorm.Model
+	Title       string  `json:"title" binding:"required" gorm:"size:32"`
+	Sku         string  `json:"sku" binding:"required" gorm:"size:32;uniqueIndex;not null"`
+	Description *string `json:"description" gorm:"size:1024"`
 }
 
 func (Product) TableName() string {
