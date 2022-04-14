@@ -13,9 +13,9 @@ Create empty database:
 mysql -h 127.0.0.1 -P 3306 -u root < create_database.sql
 ```
 
-Start client:
-```bash
-mysql -h 127.0.0.1 -P 3306 -u root sitoo_test_assignment
+Run application (tables will be created on boot):
+```
+go run main.go
 ```
 
 Add a product:
@@ -38,6 +38,11 @@ curl "localhost:8080/api/products?sku=SCK-4511&start=0&num=15"
         }
     ]
 }
+```
+
+Optionally, explore the database:
+```bash
+mysql -h 127.0.0.1 -P 3306 -u root sitoo_test_assignment
 ```
 
 ## Third-party dependencies
