@@ -8,7 +8,7 @@ Start MySQL container:
 docker-compose up
 ```
 
-Seed database:
+Create empty database:
 ```bash
 mysql -h 127.0.0.1 -P 3306 -u root < database.sql
 ```
