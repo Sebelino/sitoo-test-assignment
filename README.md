@@ -39,3 +39,9 @@ curl "localhost:8080/api/products?sku=SCK-4511&start=0&num=15"
     ]
 }
 ```
+
+## Third-party dependencies
+* `github.com/gin-gonic/gin` -- For exposing the HTTP REST API
+* `gorm.io/gorm` -- ORM library for making interacting with the database easier
+* `gorm.io/driver/mysql` -- Supporting `gorm` library for MySQL
+* `github.com/go-sql-driver/mysql` -- Used for parsing of MySQL error codes
