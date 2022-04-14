@@ -12,14 +12,14 @@ docker-compose up
 
 Add a product:
 
-```
+```bash
 curl "localhost:8080/api/products" \
     -d '{"title": "Awesome socks", "sku": "SCK-4511"}'
 ```
 
 Get products based on filter:
 
-```
+```bash
 curl "localhost:8080/api/products?sku=SCK-4511&start=0&num=15"
 {
     "totalCount": 1,
