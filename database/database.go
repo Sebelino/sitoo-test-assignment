@@ -16,6 +16,9 @@ func Setup() *gorm.DB {
 	if err := db.AutoMigrate(&model.Product{}); err != nil {
 		log.Fatalf("Failed to perform database migration of products: %v", err)
 	}
+	if err := db.AutoMigrate(&model.ProductBarcode{}); err != nil {
+		log.Fatalf("Failed to perform database migration of product barcodes: %v", err)
+	}
 	return db
 }
 
