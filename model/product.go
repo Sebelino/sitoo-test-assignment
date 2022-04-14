@@ -2,6 +2,7 @@ package model
 
 import (
 	"gorm.io/gorm"
+	"strconv"
 )
 
 type Product struct {
@@ -19,7 +20,11 @@ type ProductBarcode struct {
 }
 
 func (c *ProductBarcode) UnmarshalJSON(b []byte) error {
-	c.Barcode = string(b)
+	str, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	c.Barcode = str
 	return nil
 }
 
