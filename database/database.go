@@ -39,7 +39,7 @@ func GetProducts(filter ProductFilter, db *gorm.DB) []model.Product {
 	}
 	var products []model.Product
 	if filter.Num > 0 {
-		db.Where(queryFilter).Offset(filter.Start).Limit(filter.Num).Find(&products)
+		db.Preload("Barcodes").Where(queryFilter).Offset(filter.Start).Limit(filter.Num).Find(&products)
 	}
 	return products
 }

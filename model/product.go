@@ -32,6 +32,11 @@ func (c *ProductBarcode) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (c *ProductBarcode) MarshalJSON() ([]byte, error) {
+	quoted := strconv.Quote(c.Barcode)
+	return []byte(quoted), nil
+}
+
 type ProductsEnvelope struct {
 	TotalCount int       `json:"totalCount"`
 	Items      []Product `json:"items"`
