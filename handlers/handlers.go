@@ -77,5 +77,5 @@ func (e *ApiEnv) PostProduct(context *gin.Context) {
 		context.IndentedJSON(http.StatusInternalServerError, httpError)
 		return
 	}
-	context.Status(http.StatusCreated)
+	context.String(http.StatusCreated, strconv.Itoa(int(product.ID)))
 }
