@@ -16,6 +16,8 @@ services:
     container_name: db
     image: mysql:latest
     restart: always
+    healthcheck:
+      test: ['CMD-SHELL', 'mysqladmin ping']
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
     command: --init-file /data/application/create_database.sql
