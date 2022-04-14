@@ -1,6 +1,8 @@
 # sitoo-test-assignment
 Sitoo Test Assignment.
 
+## Usage
+
 Start MySQL container:
 ```bash
 docker-compose up
