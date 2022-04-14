@@ -15,7 +15,7 @@ type Product struct {
 
 type ProductBarcode struct {
 	ProductId uint   `json:"productId" gorm:"primaryKey"`
-	Barcode   string `json:"barcode" gorm:"size:32;uniqueIndex"`
+	Barcode   string `json:"barcode" gorm:"size:32;primaryKey;uniqueIndex"`
 }
 
 func (c *ProductBarcode) UnmarshalJSON(b []byte) error {
