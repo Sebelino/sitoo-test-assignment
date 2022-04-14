@@ -6,6 +6,9 @@ services:
     restart: always
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    command: --init-file /data/application/create_database.sql
+    volumes:
+      - ./create_database.sql:/data/application/create_database.sql
     ports:
       - '3306:3306'
     expose:
