@@ -6,6 +6,7 @@ import (
 
 type Product struct {
 	gorm.Model  `json:"-"`
+	ID          uint    `json:"productId" gorm:"primarykey"`
 	Title       string  `json:"title" binding:"required" gorm:"size:32"`
 	Sku         string  `json:"sku" binding:"required" gorm:"size:32;uniqueIndex;not null"`
 	Description *string `json:"description" gorm:"size:1024"`
